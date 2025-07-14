@@ -1,6 +1,6 @@
-# 🔐 Laravel Vue Authorization System
+# 🔐 Laravel Inertia Vue Authorization System
 
-Welcome to a comprehensive **Role-Based Access Control (RBAC)** system built with Laravel 12 and Vue 3! This project demonstrates how to create a secure, scalable authorization system that's perfect for learning modern web development patterns.
+Welcome to a comprehensive **Role-Based Access Control (RBAC)** system built with Laravel 12 and Inertia Vue 3! This project demonstrates how to create a secure, scalable authorization system that's perfect for learning modern web development patterns.
 
 ## 🚀 What You'll Discover
 
