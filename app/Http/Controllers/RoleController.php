@@ -108,7 +108,11 @@ class RoleController extends Controller
         // Prevent deletion if role has users
         if ($role->users()->count() > 0) {
             return redirect()->route('roles.index')
-                ->with('error', 'Cannot delete role that has assigned users.');
+                ->with([
+                    'message' => 'Cannot delete this role because "' . $role->name . '" has assigned users.',
+                    'status' => false,
+                    'error' => 'Cannot delete role that has assigned users.'
+                ]);
         }
 
         $role->delete();
