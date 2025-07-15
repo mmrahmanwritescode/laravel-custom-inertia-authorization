@@ -116,10 +116,6 @@ php artisan key:generate
 php artisan migrate:fresh --seed
 ```
 
-# Run migrations with seeders
-php artisan migrate:fresh --seed
-```
-
 4. **Build Assets & Start Development**
 ```bash
 # Terminal 1: Frontend assets
