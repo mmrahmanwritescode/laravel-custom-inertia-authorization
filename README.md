@@ -111,12 +111,14 @@ php artisan key:generate
 # Create a MySQL database (e.g., 'laravel_authorization')
 # Update DB_DATABASE in .env with your database name
 # Update DB_USERNAME and DB_PASSWORD with your MySQL credentials
+```
 
-# Run migrations with seeders
+4. **Run migrations with seeders**
+```bash
 php artisan migrate:fresh --seed
 ```
 
-4. **Build Assets & Start Development**
+5. **Build Assets & Start Development**
 ```bash
 # Terminal 1: Frontend assets
 npm run dev
@@ -124,6 +126,7 @@ npm run dev
 # Terminal 2: Laravel server
 php artisan serve
 ```
+
 
 ### **Default Login Credentials**
 - **Admin**: admin@example.com / password
