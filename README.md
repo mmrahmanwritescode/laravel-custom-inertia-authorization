@@ -2,13 +2,63 @@
 
 Welcome to a comprehensive **Role-Based Access Control (RBAC)** system built with Laravel 12 and Inertia Vue 3! This project demonstrates how to create a secure, scalable authorization system that's perfect for learning modern web development patterns.
 
-### 🎯 **Modern Tech Stack**
-- **Laravel 12** - The latest and greatest PHP framework
-- **Vue 3** - Modern, reactive frontend framework
-- **Inertia.js** - Seamless SPA experience without API complexity
-- **Bootstrap 5** - Beautiful, responsive UI components
-- **Vite** - Lightning-fast development build tool
-- **MySQL** - Relational DBMS for data persistence and ensuring data integrity
+## 🚀 Quick Start Guide
+
+### **Prerequisites**
+- PHP 8.2+ 
+- Laravel 12.x
+- Node.js 18+ & npm
+- MySQL 8.0+
+- Vue 3.x
+
+### **Installation Steps**
+
+1. **Clone & Install Dependencies**
+```bash
+git clone [your-repo-url]
+cd laravel-custom-inertia-authorization
+composer install
+npm install
+```
+
+2. **Environment Setup**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+3. **Database Setup**
+```bash
+# Create a MySQL database (e.g., 'laravel_authorization')
+# Update DB_DATABASE in .env with your database name
+# Update DB_USERNAME and DB_PASSWORD with your MySQL credentials
+```
+
+4. **Run migrations with seeders**
+```bash
+php artisan migrate:fresh --seed
+```
+
+5. **Build Assets & Start Development**
+```bash
+# Terminal 1: Frontend assets
+npm run dev
+
+# Terminal 2: Laravel server
+php artisan serve
+```
+
+### **Default Login Credentials**
+- **Admin**: admin@example.com / password
+- **Staff**: staff@example.com / password
+
+## 🔧 Troubleshooting
+
+### **Common Issues**
+- **Permission Denied**: Ensure user has the required permission for the route
+- **Session Issues**: Clear browser cache and restart `php artisan serve`
+- **Database Connection**: Verify MySQL credentials in `.env` file
+- **Asset Issues**: Run `npm run build` for production or `npm run dev` for development
 
 ### 🔒 **Advanced Authorization Features**
 
@@ -81,103 +131,6 @@ Roles: view-role, create-role, edit-role, delete-role
 Permissions: delete-permission
 ```
 
-## 🚀 Quick Start Guide
-
-### **Prerequisites**
-- PHP 8.2+ 
-- Laravel 12.x
-- Node.js 18+ & npm
-- MySQL 8.0+
-- Vue 3.x
-
-### **Installation Steps**
-
-1. **Clone & Install Dependencies**
-```bash
-git clone [your-repo-url]
-cd laravel-custom-inertia-authorization
-composer install
-npm install
-```
-
-2. **Environment Setup**
-```bash
-cp .env.example .env
-php artisan key:generate
-```
-
-3. **Database Setup**
-```bash
-# Create a MySQL database (e.g., 'laravel_authorization')
-# Update DB_DATABASE in .env with your database name
-# Update DB_USERNAME and DB_PASSWORD with your MySQL credentials
-```
-
-4. **Run migrations with seeders**
-```bash
-php artisan migrate:fresh --seed
-```
-
-5. **Build Assets & Start Development**
-```bash
-# Terminal 1: Frontend assets
-npm run dev
-
-# Terminal 2: Laravel server
-php artisan serve
-```
-
-
-### **Default Login Credentials**
-- **Admin**: admin@example.com / password
-- **Staff**: staff@example.com / password
-
-## 🔧 Troubleshooting
-
-### **Common Issues**
-- **Permission Denied**: Ensure user has the required permission for the route
-- **Session Issues**: Clear browser cache and restart `php artisan serve`
-- **Database Connection**: Verify MySQL credentials in `.env` file
-- **Asset Issues**: Run `npm run build` for production or `npm run dev` for development
-
-## 🎯 Core Features Explained
-
-### **1. Authentication System**
-- **Secure Registration**: Password hashing, email validation
-- **Session Management**: Persistent login sessions
-- **Auto-Role Assignment**: New users get 'staff' role by default
-
-### **2. Permission-Based Access**
-Each permission follows a clear naming pattern:
-```
-[action]-[resource]
-Examples: view-user, create-product, edit-role, delete-permission
-```
-
-### **3. Smart UI Components**
-- **Permission Grids**: Visual selection
-- **Role Badges**: Color-coded role indicators
-- **Status Alerts**: Real-time feedback with toast notifications
-- **Responsive Tables**: Mobile-friendly data display
-
-### **4. Data Management**
-- **Soft Validation**: Prevents breaking changes (can't delete assigned roles)
-- **Bulk Operations**: Select all/clear all permissions
-- **Real-time Updates**: UI reflects changes immediately
-- **Pagination**: Efficient handling of large datasets
-
-## 🔧 Customization Guide
-
-### **Adding New Permissions**
-1. Create via UI or add to `PermissionSeeder.php`
-2. Update middleware on relevant routes
-3. Add permission checks in Vue components
-
-### **Creating Custom Roles**
-1. Use the Role Management interface
-2. Assign relevant permissions
-3. Update seeders for consistent deployment
-
 ## 📁 Project Structure
 
 ```
@@ -196,23 +149,7 @@ routes/
 └── web.php             # Protected route definitions
 ```
 
-## 🎨 UI Components
-
-### **Smart Forms**
-- Auto-validation with real-time feedback
-- Consistent styling across all forms
-- Loading states and success animations
-
-### **Tables**
-- Action buttons with permission checks
-- Responsive design for mobile devices
-
-### **Navigation**
-- Permission-aware menu items
-- Breadcrumb navigation
-- User status indicators
-
-## 🔍 Learning Opportunities
+## 🔍 Concepts Used
 
 This project demonstrates:
 
