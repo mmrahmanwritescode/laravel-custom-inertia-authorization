@@ -60,7 +60,16 @@ Users ←→ Roles ←→ Permissions
 ### **Middleware Stack**
 - `SessionAuthenticate`: Ensures user is logged in
 - `PermissionMiddleware`: Checks specific permissions
-- `RoleMiddleware`: Validates user roles
+
+### **Custom Route Structure**
+Instead of Laravel's default resource routes, we use custom route definitions with granular permission middleware:
+
+```php
+// Custom approach for permission-specific middleware
+Route::get('/', 'index')->middleware('permission:view-product');
+Route::get('/create', 'create')->middleware('permission:create-product');
+// vs standard Route::resource('products', ProductController::class);
+```
 
 ## 🚀 Quick Start Guide
 
@@ -68,14 +77,14 @@ Users ←→ Roles ←→ Permissions
 - PHP 8.2 or higher
 - Composer
 - Node.js & npm
-- SQLite (included) or MySQL
+- MySQL
 
 ### **Installation Steps**
 
 1. **Clone & Install Dependencies**
 ```bash
 git clone [your-repo-url]
-cd authorization-system
+cd laravel-custom-inertia-authorization
 composer install
 npm install
 ```
@@ -88,8 +97,8 @@ php artisan key:generate
 
 3. **Database Setup**
 ```bash
-# SQLite (default)
-touch database/database.sqlite
+# MySQL 
+# Need to create a database in your MySQL server and put the credentials inside .env file
 
 # Run migrations with seeders
 php artisan migrate:fresh --seed
@@ -123,7 +132,7 @@ Examples: view-user, create-product, edit-role, delete-permission
 ```
 
 ### **3. Smart UI Components**
-- **Permission Grids**: Visual selection with search and categories
+- **Permission Grids**: Visual selection
 - **Role Badges**: Color-coded role indicators
 - **Status Alerts**: Real-time feedback with toast notifications
 - **Responsive Tables**: Mobile-friendly data display
@@ -145,12 +154,6 @@ Examples: view-user, create-product, edit-role, delete-permission
 1. Use the Role Management interface
 2. Assign relevant permissions
 3. Update seeders for consistent deployment
-
-### **Extending User Management**
-The system is designed for easy extension:
-- Add custom user fields
-- Implement additional validation rules
-- Create specialized user types
 
 ## 📁 Project Structure
 
@@ -177,8 +180,7 @@ routes/
 - Consistent styling across all forms
 - Loading states and success animations
 
-### **Data Tables**
-- Sortable columns
+### **Tables**
 - Action buttons with permission checks
 - Responsive design for mobile devices
 
@@ -194,8 +196,7 @@ This project demonstrates:
 ### **Laravel Best Practices**
 - Eloquent relationships and eager loading
 - Form request validation
-- Resource controllers with proper REST conventions
-- Middleware for cross-cutting concerns
+- Controllers with granular permission middleware set inside routes/web.php for respective methods
 
 ### **Vue 3 Patterns**
 - Reactive data management
@@ -228,4 +229,4 @@ Ready to explore? Here's what you can try:
 4. **Customize the UI** to match your brand
 5. **Extend the system** with your own features
 
-Happy coding! 🚀
+Happy Lara coding! 🚀
