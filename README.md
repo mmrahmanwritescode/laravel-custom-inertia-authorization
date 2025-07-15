@@ -71,13 +71,24 @@ Route::get('/create', 'create')->middleware('permission:create-product');
 // vs standard Route::resource('products', ProductController::class);
 ```
 
+### **Permission List Documentation**
+
+### **Available Permissions**
+```
+Products: view-product, create-product, edit-product, delete-product
+Users: view-user, create-user, edit-user, delete-user  
+Roles: view-role, create-role, edit-role, delete-role
+Permissions: delete-permission
+```
+
 ## 🚀 Quick Start Guide
 
 ### **Prerequisites**
-- PHP 8.2 or higher
-- Composer
-- Node.js & npm
-- MySQL
+- PHP 8.2+ 
+- Laravel 12.x
+- Node.js 18+ & npm
+- MySQL 8.0+
+- Vue 3.x
 
 ### **Installation Steps**
 
@@ -97,8 +108,13 @@ php artisan key:generate
 
 3. **Database Setup**
 ```bash
-# MySQL 
-# Need to create a database in your MySQL server and put the credentials inside .env file
+# Create a MySQL database (e.g., 'laravel_authorization')
+# Update DB_DATABASE in .env with your database name
+# Update DB_USERNAME and DB_PASSWORD with your MySQL credentials
+
+# Run migrations with seeders
+php artisan migrate:fresh --seed
+```
 
 # Run migrations with seeders
 php artisan migrate:fresh --seed
@@ -116,6 +132,14 @@ php artisan serve
 ### **Default Login Credentials**
 - **Admin**: admin@example.com / password
 - **Staff**: staff@example.com / password
+
+## 🔧 Troubleshooting
+
+### **Common Issues**
+- **Permission Denied**: Ensure user has the required permission for the route
+- **Session Issues**: Clear browser cache and restart `php artisan serve`
+- **Database Connection**: Verify MySQL credentials in `.env` file
+- **Asset Issues**: Run `npm run build` for production or `npm run dev` for development
 
 ## 🎯 Core Features Explained
 
