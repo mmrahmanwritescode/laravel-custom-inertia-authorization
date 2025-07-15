@@ -17,16 +17,14 @@ class PermissionMiddleware
      */
     public function handle(Request $request, Closure $next, string $permission): Response
     {
+        $user_id = $request->session()->get('user_id', 'default');
+        // dd($permission);
 
-        $user_id=$request->session()->get('user_id','default');
-
-        /** @var \App\Models\User $user */
         $user = User::find($user_id);
-        if (!$user) {
-            return redirect()->route('LoginPage');
-        }
-        if (!$user->hasPermission($permission)) {
-            abort(403, 'Unauthorized. You do not have the required permission.');
+
+        if (!$user || !$user->hasPermission($permission)) {
+            $request->session()->flash('error','Unauthorized. You do not have the required permission!');
+            return redirect(route('DashboardPage'));
         }
 
         return $next($request);

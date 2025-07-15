@@ -40,6 +40,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
         try {
             $request->validate([
                 'name' => 'required|string|max:255',
@@ -99,6 +100,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+
         try {
             $request->validate([
                 'name' => 'required|string|max:255',

@@ -11,6 +11,10 @@
                     </span>
                 </div>
                 <div>
+                    <span class="user-greeting me-3">
+                        <i class="fa fa-user me-1"></i>
+                        Welcome, {{ user?.name || 'User' }}
+                    </span>
                     <Link :href="route('logout')" class="btn-logout">
                         <i class="fa fa-sign-out-alt me-1"></i> Logout
                     </Link>
@@ -183,6 +187,26 @@ const NavOpenClose = () => {
     width: 20px;
     text-align: center;
     margin-right: 10px;
+}
+
+.user-greeting {
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    /* background-color: rgba(255, 255, 255, 0.1); */
+    padding: 8px 12px;
+    /* border-radius: 20px; */
+    /* border: 1px solid rgba(255, 255, 255, 0.2); */
+}
+
+.user-greeting i {
+    color: #cccccc;
+}
+
+@media (max-width: 768px) {
+    .user-greeting {
+        display: none; /* Hide on mobile to save space */
+    }
 }
 
 </style>

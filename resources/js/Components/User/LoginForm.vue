@@ -51,7 +51,9 @@
 import { useForm, router, usePage, Link } from '@inertiajs/vue3';
 import { createToaster } from "@meforma/vue-toaster";
 
-const toaster = createToaster();
+const toaster = createToaster({
+    position: "bottom",
+});
 
 const form = useForm({
     email: '',
@@ -59,6 +61,11 @@ const form = useForm({
 });
 
 const page = usePage();
+
+// Watch for toaster notification to show errors for unauthenticated access
+if (page.props.flash.error) {
+    toaster.error(page.props.flash.error);
+}
 
 function submit() {
     if (!form.email) {

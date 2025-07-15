@@ -2,16 +2,13 @@
 
 Welcome to a comprehensive **Role-Based Access Control (RBAC)** system built with Laravel 12 and Inertia Vue 3! This project demonstrates how to create a secure, scalable authorization system that's perfect for learning modern web development patterns.
 
-## 🚀 What You'll Discover
-
-This isn't just another Laravel project - it's a complete authorization system showcasing:
-
 ### 🎯 **Modern Tech Stack**
 - **Laravel 12** - The latest and greatest PHP framework
 - **Vue 3** - Modern, reactive frontend framework
 - **Inertia.js** - Seamless SPA experience without API complexity
 - **Bootstrap 5** - Beautiful, responsive UI components
 - **Vite** - Lightning-fast development build tool
+- **MySQL** - Relational DBMS for data persistence and ensuring data integrity
 
 ### 🔒 **Advanced Authorization Features**
 
@@ -23,7 +20,6 @@ This isn't just another Laravel project - it's a complete authorization system s
 #### **Smart Middleware Protection**
 - **Session-based Authentication**: Secure login/logout system
 - **Permission Middleware**: Route-level access control
-- **Role Middleware**: Hierarchical user access
 - **Automatic Redirects**: Unauthorized users are gracefully handled
 
 #### **Beautiful Admin Interface**

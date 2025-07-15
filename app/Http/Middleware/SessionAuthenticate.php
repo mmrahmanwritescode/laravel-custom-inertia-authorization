@@ -19,7 +19,8 @@ class SessionAuthenticate
         $user_id=$request->session()->get('user_id','default');
 
         if($email=="default"){
-            return redirect('/login');
+            $request->session()->flash('error','You are not authorized to access this page!');
+            return redirect(route('LoginPage'));
         }
         else{
             $request->headers->set('email',$email);

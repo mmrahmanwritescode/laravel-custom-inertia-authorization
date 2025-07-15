@@ -47,7 +47,7 @@ class LoginController extends Controller
 
         // Login failed
         return back()->with([
-            'message' => 'Login Failed',
+            'message' => 'Login Failed - Invalid email or password!',
             'status' => false,
             'error' => 'Invalid email or password'
         ]);

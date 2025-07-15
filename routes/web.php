@@ -24,15 +24,47 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/register', 'register')->name('register');
 });
 
-
 // Protected routes
 Route::middleware([SessionAuthenticate::class])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('DashboardPage');
     
-    // Resource routes with permission middleware
-    Route::resource('users', UserController::class)->middleware('permission:view-user,create-user,edit-user,delete-user');
-    Route::resource('products', ProductController::class)->middleware('permission:view-product,create-product,edit-product,delete-product');
-    Route::resource('roles', RoleController::class)->middleware('permission:view-role,create-role,edit-role,delete-role');
-    Route::resource('permissions', PermissionController::class)->middleware('permission:view-permission,create-permission,edit-permission,delete-permission');
-
+    // Products routes with specific permissions
+    Route::controller(ProductController::class)->prefix('products')->name('products.')->group(function () {
+        Route::get('/', 'index')->middleware('permission:view-product')->name('index');
+        Route::get('/create', 'create')->middleware('permission:create-product')->name('create');
+        Route::post('/', 'store')->middleware('permission:create-product')->name('store');
+        Route::get('/{product}/edit', 'edit')->middleware('permission:edit-product')->name('edit');
+        Route::put('/{product}', 'update')->middleware('permission:edit-product')->name('update');
+        Route::delete('/{product}', 'destroy')->middleware('permission:delete-product')->name('destroy');
+    });
+    
+    // Users routes with specific permissions
+    Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
+        Route::get('/', 'index')->middleware('permission:view-user')->name('index');
+        Route::get('/create', 'create')->middleware('permission:create-user')->name('create');
+        Route::post('/', 'store')->middleware('permission:create-user')->name('store');
+        Route::get('/{user}/edit', 'edit')->middleware('permission:edit-user')->name('edit');
+        Route::put('/{user}', 'update')->middleware('permission:edit-user')->name('update');
+        Route::delete('/{user}', 'destroy')->middleware('permission:delete-user')->name('destroy');
+    });
+    
+    // Roles routes with specific permissions
+    Route::controller(RoleController::class)->prefix('roles')->name('roles.')->group(function () {
+        Route::get('/', 'index')->middleware('permission:view-role')->name('index');
+        Route::get('/create', 'create')->middleware('permission:create-role')->name('create');
+        Route::post('/', 'store')->middleware('permission:create-role')->name('store');
+        Route::get('/{role}/edit', 'edit')->middleware('permission:edit-role')->name('edit');
+        Route::put('/{role}', 'update')->middleware('permission:edit-role')->name('update');
+        Route::delete('/{role}', 'destroy')->middleware('permission:delete-role')->name('destroy');
+    });
+    
+    // Permissions routes with specific permissions
+    Route::controller(PermissionController::class)->prefix('permissions')->name('permissions.')->group(function () {
+        Route::get('/', 'index')->middleware('permission:view-permission')->name('index');
+        Route::get('/create', 'create')->middleware('permission:create-permission')->name('create');
+        Route::post('/', 'store')->middleware('permission:create-permission')->name('store');
+        Route::get('/{permission}/edit', 'edit')->middleware('permission:edit-permission')->name('edit');
+        Route::put('/{permission}', 'update')->middleware('permission:edit-permission')->name('update');
+        Route::delete('/{permission}', 'destroy')->middleware('permission:delete-permission')->name('destroy');
+    });
 });
