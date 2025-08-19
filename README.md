@@ -2,6 +2,15 @@
 
 Welcome to a comprehensive **Role-Based Access Control (RBAC)** system built with Laravel 12 and Inertia Vue 3! This project demonstrates how to create a secure, scalable authorization system that's perfect for learning modern web development patterns.
 
+## Live Demo
+**Try it now:** [https://custom-authentication-authorization.laravelcs.com](https://custom-authentication-authorization.laravelcs.com)
+
+Experience the complete authorization system in action!
+
+## Screenshots
+
+![Laravel inertia custom authorization](https://laravelcs.com/images/github/laravel-ineria-custom-authentication-authorization.png)
+
 ## 🚀 Quick Start Guide
 
 ### **Prerequisites**
@@ -15,7 +24,7 @@ Welcome to a comprehensive **Role-Based Access Control (RBAC)** system built wit
 
 1. **Clone & Install Dependencies**
 ```bash
-git clone [your-repo-url]
+git clone https://github.com/mmrahmanwritescode/laravel-custom-inertia-authorization
 cd laravel-custom-inertia-authorization
 composer install
 npm install
