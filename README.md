@@ -199,3 +199,7 @@ Ready to explore? Here's what you can try:
 5. **Extend the system** with your own features
 
 Happy Lara coding! 🚀
+
+---
+
+⭐ **If this project helped you, please give it a star!** ⭐
