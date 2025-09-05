@@ -65,7 +65,7 @@ php artisan serve
 #### **Multi-Level Permission System**
 - **Roles**: Admin, Staff, Manager, Customer (fully customizable)
 - **Permissions**: Granular control over every action (view, create, edit, delete)
-- **Dynamic Assignment**: Roles can have multiple permissions, users can have multiple roles
+- **Dynamic Assignment**: Users can have multiple roles and Roles can have multiple permissions 
 
 #### **Smart Middleware Protection**
 - **Session-based Authentication**: Secure login/logout system
