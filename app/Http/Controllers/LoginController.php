@@ -23,6 +23,11 @@ class LoginController extends Controller
     
     function login(Request $request) { //dd(Hash::make($request->input('password')));
 
+        $request->validate([
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8',
+        ]);
+
         // Retrieving the user by email
         $user = User::where('email', $request->input('email'))->first();
 

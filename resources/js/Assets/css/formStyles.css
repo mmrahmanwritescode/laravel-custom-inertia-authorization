@@ -1,0 +1,126 @@
+/* Form Container Styling - No animation to prevent issues */
+.form-container {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.4s ease-out;
+}
+
+.form-container.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Header Card */
+.header-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    border-left: 4px solid #0d6efd;
+}
+
+.header-title {
+    color: #2c3e50;
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.header-subtitle {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Form Card */
+.data-form-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.data-form-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Form Groups */
+.modern-form-group {
+    margin-bottom: 10px;
+}
+
+.modern-form-group .form-label {
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.modern-input, .modern-select {
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.modern-input:focus, .modern-select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+.error-message {
+    color: #e74c3c;
+    display: block;
+    margin-top: 5px;
+    font-size: 0.85rem;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #f1f1f1;
+}
+
+.btn-save {
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+}
+
+.btn-save:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+}
+
+.btn-back {
+    transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+    background-color: #f8f9fa;
+    transform: translateX(-2px);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+    .header-card,
+    .data-form-card {
+        padding: 15px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .form-actions .btn {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    
+    .form-actions .btn + .btn {
+        margin-left: 0 !important;
+    }
+}
