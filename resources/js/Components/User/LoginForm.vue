@@ -249,6 +249,27 @@ onMounted(() => {
     box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
 }
 
+/* Layout for the primary action and the forgotten-password link */
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+}
+
+/* On very small screens stack vertically */
+@media (max-width: 576px) {
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .form-actions .text-end {
+        text-align: left !important;
+        margin-top: 0.5rem;
+    }
+}
+
 .forgot-password-link {
     color: #6c757d;
     font-size: 0.9rem;
