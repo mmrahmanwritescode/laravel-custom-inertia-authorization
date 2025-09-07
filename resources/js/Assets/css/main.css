@@ -111,3 +111,285 @@
 #nprogress .spinner {
     display: none !important;
 }
+
+/* === REUSABLE LAYOUT COMPONENTS === */
+
+/* Admin Layout Styles */
+.top-navbar, .top-navbar-expand {
+    background: linear-gradient(135deg, #2c3e50, #3498db) !important;
+    height: 60px;
+}
+
+.side-nav-open {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 250px;
+    height: calc(100vh - 60px);
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    background: linear-gradient(to bottom, #1a1a1a, #272727) !important;
+}
+
+.side-nav-close {
+    position: fixed;
+    top: 60px;
+    left: -250px;
+    width: 250px;
+    height: calc(100vh - 60px);
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    background: linear-gradient(to bottom, #1a1a1a, #272727) !important;
+}
+
+.content {
+    margin-left: 250px;
+    margin-top: 60px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    min-height: calc(100vh - 60px);
+}
+
+.content-expand {
+    margin-left: 0;
+    margin-top: 60px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    min-height: calc(100vh - 60px);
+}
+
+/* Sidebar Navigation Items */
+.side-bar-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    margin: 5px 10px;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 8px !important;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.side-bar-item:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #ffffff;
+    text-decoration: none;
+    transform: translateX(5px);
+}
+
+.side-bar-item.active {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+.side-bar-item-icon {
+    width: 20px;
+    text-align: center;
+    margin-right: 12px;
+    font-size: 16px;
+}
+
+.side-bar-item-caption {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* === REUSABLE FORM COMPONENTS === */
+
+/* Login/Registration Page Layout */
+.login-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
+    padding: 2rem 0;
+}
+
+.login-container {
+    margin-bottom: 2rem;
+}
+
+.login-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.login-title {
+    font-weight: 700;
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+    color: #6c757d;
+    margin-bottom: 1.5rem;
+}
+
+/* Brand Logo */
+.brand-logo {
+    margin-bottom: 1rem;
+}
+
+.brand-logo i {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+/* Primary Action Button */
+.login-btn {
+    padding: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.login-btn:hover:not([disabled]) {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Form Actions Layout */
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+}
+
+/* Secondary Links */
+.forgot-password-link {
+    color: #6c757d;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+.forgot-password-link:hover {
+    color: #0d6efd;
+    text-decoration: underline !important;
+}
+
+/* Form Separators */
+.separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.5rem 0;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.separator span {
+    padding: 0 1rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Outline Buttons */
+.register-btn {
+    padding: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-width: 2px;
+    color: #2C3E51;
+    border-color: #2C3E51;
+}
+
+.register-btn:hover {
+    background-color: rgba(44, 62, 80, 0.1);
+    color: #2C3E51;
+    border-color: #2C3E51;
+    transform: translateY(-2px);
+}
+
+.home-btn {
+    padding: 10px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-width: 2px;
+}
+
+.home-btn:hover {
+    background-color: rgba(13, 202, 240, 0.1);
+    transform: translateY(-2px);
+    color: #0dcaf0;
+}
+
+/* Password Toggle */
+.toggle-password {
+    cursor: pointer;
+}
+
+.toggle-password:hover {
+    color: #0d6efd;
+}
+
+/* Demo Credentials */
+.demo-credentials {
+    border-top: 1px solid #f1f1f1;
+    padding-top: 1.5rem;
+}
+
+/* Spinner */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* === REUSABLE UI COMPONENTS === */
+
+/* User Greeting */
+.user-greeting {
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 8px 12px;
+}
+
+.user-greeting i {
+    color: #cccccc;
+}
+
+/* Logout Button */
+.btn-logout {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Sidebar Elements */
+.sidebar-tagline {
+    color: #cccccc;
+    font-size: 14px;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.sidebar-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+    margin: 15px 20px;
+}
+
+.side-nav-top {
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 10px;
+}

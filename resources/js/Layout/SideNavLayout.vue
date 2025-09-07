@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav id="topNav" class="navbar fixed-top food-blog-navbar" :class="isNavOpen ? 'top-navbar' : 'top-navbar-expand'">
+        <nav id="topNav" class="navbar fixed-top" :class="isNavOpen ? 'top-navbar' : 'top-navbar-expand'">
             <div class="container-fluid">
                 <div class="d-flex align-items-center">
                     <a id="MenuBar" @click="NavOpenClose" class="icon-nav mx-2 my-1 h5">
@@ -129,85 +129,36 @@ const NavOpenClose = () => {
 </script>
 
 <style scoped>
+/* Component-specific active state override */
 .active {
-    background-color: #000000; /* Black background */
+    background-color: #000000 !important;
     color: white !important;
 }
 
-.food-blog-navbar {
-    background: linear-gradient(to right, #000000, #333333) !important;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 10px 15px;
-}
-
-.btn-logout {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 40px;
-    background-color: rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-}
-
-.btn-logout:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-.sidebar-tagline {
-    color: #cccccc;
-    font-size: 14px;
-    font-style: italic;
-    margin-bottom: 15px;
-}
-
-.sidebar-divider {
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
-    margin: 15px 20px;
-}
-
-#sideNav {
-    background: linear-gradient(to bottom, #1a1a1a, #272727) !important;
-}
-
-.side-bar-item {
-    margin: 5px 10px;
-    border-radius: 8px !important;
-    transition: all 0.3s ease;
-}
-
-.side-bar-item:hover {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    transform: translateX(5px);
-}
-
-.side-bar-item-icon {
-    width: 20px;
-    text-align: center;
-    margin-right: 10px;
-}
-
-.user-greeting {
-    color: white;
-    font-weight: 500;
-    font-size: 14px;
-    /* background-color: rgba(255, 255, 255, 0.1); */
-    padding: 8px 12px;
-    /* border-radius: 20px; */
-    /* border: 1px solid rgba(255, 255, 255, 0.2); */
-}
-
-.user-greeting i {
-    color: #cccccc;
-}
-
+/* Mobile-specific responsive adjustments */
 @media (max-width: 768px) {
     .user-greeting {
         display: none; /* Hide on mobile to save space */
     }
+    
+    .content, .content-expand {
+        margin-left: 0;
+    }
+    
+    .side-nav-open {
+        left: 0;
+        z-index: 1040;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .form-actions .text-end {
+        text-align: left !important;
+        margin-top: 0.5rem;
+    }
 }
-
 </style>
 
