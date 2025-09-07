@@ -41,22 +41,24 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-        try {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users',
-                'password' => 'required|string|min:3|confirmed',
-                'password_confirmation' => 'required|string|min:3',
-                'roles' => 'array',
-                'roles.*' => 'exists:roles,id'
-            ], [
-                'password.required' => 'Password is required.',
-                'password.min' => 'Password must be at least 8 characters long.',
-                'password.confirmed' => 'Password confirmation does not match.',
-                'password_confirmation.required' => 'Password confirmation is required.',
-                'password_confirmation.min' => 'Password confirmation must be at least 8 characters long.',
-            ]);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required|string|min:6',
+            'roles' => 'required|array|min:1',
+            'roles.*' => 'exists:roles,id'
+        ], [
+            'password.required' => 'Password is required.',
+            'password.min' => 'Password must be at least 6 characters long.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'password_confirmation.required' => 'Password confirmation is required.',
+            'password_confirmation.min' => 'Password confirmation must be at least 6 characters long.',
+            'roles.required' => 'Please select at least one role.',
+            'roles.min' => 'Please select at least one role.',
+        ]);        
 
+        try {
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -101,19 +103,22 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
 
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:6|confirmed',
+            'password_confirmation' => 'nullable|string|min:6',
+            'roles' => 'required|array|min:1',
+            'roles.*' => 'exists:roles,id'
+        ], [
+            'password.min' => 'Password must be at least 6 characters long.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'password_confirmation.min' => 'Password confirmation must be at least 6 characters long.',
+            'roles.required' => 'Please select at least one role.',
+            'roles.min' => 'Please select at least one role.',
+        ]);
+
         try {
-            $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-                'password' => 'nullable|string|min:3|confirmed',
-                'password_confirmation' => 'nullable|string|min:3',
-                'roles' => 'array',
-                'roles.*' => 'exists:roles,id'
-            ], [
-                'password.min' => 'Password must be at least 8 characters long.',
-                'password.confirmed' => 'Password confirmation does not match.',
-                'password_confirmation.min' => 'Password confirmation must be at least 8 characters long.',
-            ]);
 
             // Additional validation: if password is provided, password_confirmation must also be provided
             if ($request->filled('password') && !$request->filled('password_confirmation')) {

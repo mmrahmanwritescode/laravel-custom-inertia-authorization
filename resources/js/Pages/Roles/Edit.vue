@@ -102,20 +102,22 @@
                                     </div>
                                 </div>
 
-                                <div class="">
-                                    <button type="submit" class="btn btn-edit me-2" :disabled="form.processing">
-                                        <i class="fa fa-save me-2"></i>
-                                        {{ form.processing ? 'Updating...' : 'Update Role' }}
-                                    </button>                                    
-                                    <Link :href="route('roles.index')" class="btn btn-secondary me-2">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <button type="submit" class="btn btn-outline-primary me-2" :disabled="form.processing">
+                                            <i class="fa fa-save me-2"></i>
+                                            {{ form.processing ? 'Updating...' : 'Update Role' }}
+                                        </button>                                    
+                                        <button type="button" @click="selectAllPermissions" class="btn btn-outline-success me-2">
+                                            <i class="fa fa-check-double me-2"></i>Select All
+                                        </button>
+                                        <button type="button" @click="clearAllPermissions" class="btn btn-outline-danger me-2">
+                                            <i class="fa fa-times me-2"></i>Clear All
+                                        </button>
+                                    </div>
+                                    <Link :href="route('roles.index')" class="btn btn-outline-info me-2">
                                         <i class="fa fa-arrow-left me-2"></i>Back to Roles
-                                    </Link>
-                                    <button type="button" @click="selectAllPermissions" class="btn btn-outline-primary me-2">
-                                        <i class="fa fa-check-double me-2"></i>Select All
-                                    </button>
-                                    <button type="button" @click="clearAllPermissions" class="btn btn-outline-secondary me-2">
-                                        <i class="fa fa-times me-2"></i>Clear All
-                                    </button>
+                                    </Link>                                    
                                 </div>
                             </form>
                         </div>

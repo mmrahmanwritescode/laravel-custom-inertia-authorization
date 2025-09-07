@@ -45,11 +45,11 @@
                                 </div>
 
                                 <div class="d-flex justify-content-between">
-                                    <button type="submit" class="btn btn-edit me-2" :disabled="form.processing">
+                                    <button type="submit" class="btn btn-outline-primary me-2" :disabled="form.processing">
                                         <i class="fa fa-save me-2"></i>
                                         {{ form.processing ? 'Updating...' : 'Update Permission' }}
                                     </button>                                    
-                                    <Link href="/permissions" class="btn btn-secondary">
+                                    <Link href="/permissions" class="btn btn-outline-info">
                                         <i class="fa fa-arrow-left me-2"></i>Back to Permissions
                                     </Link>
                                 </div>

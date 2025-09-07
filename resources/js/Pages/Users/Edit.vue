@@ -32,8 +32,7 @@
                                                 id="name"
                                                 v-model="form.name" 
                                                 class="form-control"
-                                                :class="{ 'is-invalid': form.errors.name }"
-                                                required
+                                                :class="{ 'is-invalid': form.errors.name }"                                                
                                             >
                                             <span v-if="form.errors.name" class="text-danger mt-2 d-block">
                                                 {{ form.errors.name }}
@@ -48,8 +47,7 @@
                                                 id="email"
                                                 v-model="form.email" 
                                                 class="form-control"
-                                                :class="{ 'is-invalid': form.errors.email }"
-                                                required
+                                                :class="{ 'is-invalid': form.errors.email }"                                                
                                             >
                                             <span v-if="form.errors.email" class="text-danger mt-2 d-block">
                                                 {{ form.errors.email }}
@@ -129,12 +127,12 @@
                                     </div>
                                 </div>
 
-                                <div class="">
-                                    <button type="submit" class="btn btn-edit me-2" :disabled="form.processing">
+                                <div class="d-flex justify-content-between">
+                                    <button type="submit" class="btn btn-outline-primary" :disabled="form.processing">
                                         <i class="fa fa-save me-2"></i>
                                         {{ form.processing ? 'Updating...' : 'Update User' }}
                                     </button>                                    
-                                    <Link href="/users" class="btn btn-secondary">
+                                    <Link href="/users" class="btn btn-outline-info">
                                         <i class="fa fa-arrow-left me-2"></i>Back to Users
                                     </Link>
 

@@ -8,7 +8,7 @@
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="card-title">Permissions Management</h3>
                             <div v-if="canCreatePermission">
-                                <Link href="/permissions/create" class="btn btn-dark create-btn">
+                                <Link href="/permissions/create" class="btn btn-outline-primary">
                                     <i class="fa fa-plus me-2"></i>Create Permission
                                 </Link>
                             </div>
@@ -272,50 +272,5 @@ const confirmDelete = () => {
     padding: 2rem;
 }
 
-.table th {
-    border-top: none;
-    font-weight: 600;
-    color: #495057;
-    background-color: #f8f9fa;
-}
 
-.table td {
-    vertical-align: middle;
-}
-
-.btn-group .btn {
-    border-radius: 0.25rem !important;
-    margin-right: 0.25rem;
-}
-
-.btn-group .btn:last-child {
-    margin-right: 0;
-}
-
-.badge {
-    font-size: 0.75rem;
-}
-
-/* Pagination Styles */
-.pagination {
-    gap: 0.5rem;
-}
-
-.pagination .page-item .page-link {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    color: #333;
-    border: none;
-    background-color: #f8f9fa;
-}
-
-.pagination .page-item.active .page-link {
-    background-color: #333;
-    color: white;
-}
 </style>

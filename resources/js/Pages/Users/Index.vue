@@ -6,7 +6,7 @@
           <div class="card admin-card">
             <div class="card-header d-flex justify-content-between align-items-center">
               <h3 class="card-title">Users Management</h3>
-              <Link v-if="canCreateUser" :href="route('users.create')" class="btn btn-dark create-btn">
+              <Link v-if="canCreateUser" :href="route('users.create')" class="btn btn-outline-primary">
                 <i class="fa fa-plus me-1"></i> Create User
               </Link>
             </div>
@@ -40,12 +40,14 @@
                       </td>
                       <td>{{ formatDate(user.created_at) }}</td>
                       <td v-if="canEditUser || canDeleteUser" class="edit-delete-container">
-                        <Link v-if="canEditUser" :href="route('users.edit', user.id)" class="btn btn-edit btn-sm me-1">
-                          Edit
-                        </Link>
-                        <button v-if="canDeleteUser" @click="deleteResource(user.id)" class="btn btn-delete btn-sm">
-                          Delete
-                        </button>
+                        <div class="btn-group" role="group">
+                          <Link v-if="canEditUser" :href="route('users.edit', user.id)" class="btn btn-sm btn-outline-primary me-1">
+                            <i class="fa fa-edit"></i>
+                          </Link>
+                          <button v-if="canDeleteUser" @click="deleteResource(user.id)" class="btn btn-sm btn-outline-danger">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                     <tr v-if="usersData.length === 0">

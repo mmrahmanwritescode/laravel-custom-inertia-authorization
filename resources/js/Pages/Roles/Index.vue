@@ -6,19 +6,19 @@
           <div class="card admin-card">
             <div class="card-header d-flex justify-content-between align-items-center">
               <h3 class="card-title">Roles Management</h3>
-              <Link v-if="canCreateRole" :href="route('roles.create')" class="btn btn-dark create-btn">
+              <Link v-if="canCreateRole" :href="route('roles.create')" class="btn btn-outline-primary">
                 <i class="fa fa-plus me-1"></i> Create Role
               </Link>
             </div>
             <div class="card-body">
-              <div class="table-responsive admin-table">
-                <table class="table table-striped">
+              <div class="table-responsive">
+                <table class="table table-striped table-hover">
                   <thead>
                     <tr>
-                      <th>ID</th>
+                      <th>#</th>
                       <th>Name</th>
                       <th>Permissions</th>
-                      <th>Created At</th>
+                      <th>Created</th>
                       <th v-if="canEditRole || canDeleteRole">Actions</th>
                     </tr>
                   </thead>
@@ -40,13 +40,15 @@
                         <span v-if="role.permissions.length === 0" class="text-muted">No permissions</span>
                       </td>
                       <td>{{ formatDate(role.created_at) }}</td>
-                      <td v-if="canEditRole || canDeleteRole" class="edit-delete-container">
-                        <Link v-if="canEditRole" :href="`/roles/${role.id}/edit`" class="btn btn-edit btn-sm me-1">
-                          Edit
-                        </Link>
-                        <button v-if="canDeleteRole" @click="deleteResource(role.id)" class="btn btn-delete btn-sm">
-                          Delete
-                        </button>
+                      <td v-if="canEditRole || canDeleteRole">
+                        <div class="btn-group" role="group">
+                          <Link v-if="canEditRole" :href="`/roles/${role.id}/edit`" class="btn btn-sm btn-outline-primary me-1">
+                            <i class="fa fa-edit"></i>
+                          </Link>
+                          <button v-if="canDeleteRole" @click="deleteResource(role.id)" class="btn btn-sm btn-outline-danger">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </div>
                       </td>
                     </tr>
                     <tr v-if="rolesData.length === 0">

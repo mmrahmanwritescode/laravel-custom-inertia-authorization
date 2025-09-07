@@ -1,87 +1,112 @@
 <template>
   <SideNavLayout>
     <div class="container-fluid">
+
       <div class="row">
-        <div class="col-md-8 mx-auto">
-          <div class="card admin-card">
+          <div class="col-12">
+              <div class="page-header">
+                  <h1 class="page-title">Create User</h1>
+                  <nav aria-label="breadcrumb">
+                      <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><Link :href="route('users.index')">Users</Link></li>
+                          <li class="breadcrumb-item active" aria-current="page">Create User</li>
+                      </ol>
+                  </nav>
+              </div>
+          </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Create New User</h3>
+              <h5 class="card-title mb-0">User Information</h5>       
             </div>
             <div class="card-body">
               <form @submit.prevent="submit">
-                <div class="mb-4">
-                  <label for="name" class="form-label fw-bold">Full Name</label>
-                  <input 
-                    type="text" 
-                    id="name"
-                    v-model="form.name" 
-                    class="form-control"
-                    :class="{ 'is-invalid': errors.name }"
-                  >
-                    <span v-if="form.errors.name" class="text-danger mt-2 d-block">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group mb-3">
+                      <label for="name" class="form-label fw-bold">Name *</label>
+                      <input 
+                        type="text" 
+                        id="name"
+                        v-model="form.name" 
+                        class="form-control"
+                        :class="{ 'is-invalid': form.errors.name }"
+                      >
+                      <div v-if="form.errors.name" class="invalid-feedback">
                           {{ form.errors.name }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group mb-3">
+                      <label for="email" class="form-label fw-bold">Email *</label>
+                      <input 
+                        type="email" 
+                        id="email"
+                        v-model="form.email" 
+                        class="form-control"
+                        :class="{ 'is-invalid': form.errors.email }"
+                      >
+                      <span v-if="form.errors.email" class="text-danger mt-2 d-block">
+                        {{ form.errors.email }}
                       </span>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="mb-4">
-                  <label for="email" class="form-label fw-bold">Email Address</label>
-                  <input 
-                    type="email" 
-                    id="email"
-                    v-model="form.email" 
-                    class="form-control"
-                    :class="{ 'is-invalid': errors.email }"
-                  >
-                    <span v-if="form.errors.email" class="text-danger mt-2 d-block">
-                          {{ form.errors.email }}
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group mb-3">
+                      <label for="password" class="form-label fw-bold">Password *</label>
+                      <input 
+                        type="password" 
+                        id="password"
+                        v-model="form.password" 
+                        class="form-control"
+                        :class="{ 'is-invalid': form.errors.password || errors.password }"
+                      >
+                      <span v-if="form.errors.password" class="text-danger mt-2 d-block">
+                        {{ form.errors.password }}
                       </span>
+                      <span v-else-if="errors.password" class="text-danger mt-2 d-block">
+                        {{ errors.password }}
+                      </span>
+                      <small class="form-text text-muted">Minimum 8 characters required</small>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group mb-3">
+                      <label for="password_confirmation" class="form-label fw-bold">Confirm Password *</label>
+                      <input 
+                        type="password" 
+                        id="password_confirmation"
+                        v-model="form.password_confirmation" 
+                        class="form-control"
+                        :class="{ 'is-invalid': form.errors.password_confirmation || errors.password_confirmation || passwordMismatch }"
+                      >
+                      <span v-if="form.errors.password_confirmation" class="text-danger mt-2 d-block">
+                        {{ form.errors.password_confirmation }}
+                      </span>
+                      <span v-else-if="errors.password_confirmation" class="text-danger mt-2 d-block">
+                        {{ errors.password_confirmation }}
+                      </span>
+                      <span v-else-if="passwordMismatch" class="text-danger mt-2 d-block">
+                        Passwords do not match
+                      </span>
+                      <span v-else-if="passwordMatch && form.password && form.password_confirmation" class="text-success mt-2 d-block">
+                        <i class="fa fa-check me-1"></i>Passwords match
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="mb-4">
-                  <label for="password" class="form-label fw-bold">Password *</label>
-                  <input 
-                    type="password" 
-                    id="password"
-                    v-model="form.password" 
-                    class="form-control"
-                    :class="{ 'is-invalid': form.errors.password || errors.password }"
-                  >
-                  <span v-if="form.errors.password" class="text-danger mt-2 d-block">
-                    {{ form.errors.password }}
-                  </span>
-                  <span v-else-if="errors.password" class="text-danger mt-2 d-block">
-                    {{ errors.password }}
-                  </span>
-                  <small class="form-text text-muted">Minimum 8 characters required</small>
-                </div>
-
-                <div class="mb-4">
-                  <label for="password_confirmation" class="form-label fw-bold">Confirm Password *</label>
-                  <input 
-                    type="password" 
-                    id="password_confirmation"
-                    v-model="form.password_confirmation" 
-                    class="form-control"
-                    :class="{ 'is-invalid': form.errors.password_confirmation || errors.password_confirmation || passwordMismatch }"
-                  >
-                  <span v-if="form.errors.password_confirmation" class="text-danger mt-2 d-block">
-                    {{ form.errors.password_confirmation }}
-                  </span>
-                  <span v-else-if="errors.password_confirmation" class="text-danger mt-2 d-block">
-                    {{ errors.password_confirmation }}
-                  </span>
-                  <span v-else-if="passwordMismatch" class="text-danger mt-2 d-block">
-                    Passwords do not match
-                  </span>
-                  <span v-else-if="passwordMatch && form.password && form.password_confirmation" class="text-success mt-2 d-block">
-                    <i class="fa fa-check me-1"></i>Passwords match
-                  </span>
-                </div>
-
-                <div class="mb-4">
-                  <label class="form-label fw-bold">Assign Roles</label>
+                <div class="form-group mb-4">
+                  <label class="form-label fw-bold">Roles *</label>
                   <div class="row">
-                    <div v-for="role in roles" :key="role.id" class="col-md-6 mb-2">
+                    <div v-for="role in roles" :key="role.id" class="col-md-4 mb-2">
                       <div class="form-check">
                         <input 
                           type="checkbox" 
@@ -96,23 +121,51 @@
                       </div>
                     </div>
                   </div>
-                  <div v-if="errors.roles" class="text-danger">{{ errors.roles }}</div>
+                  <div v-if="form.errors.roles" class="text-danger mt-1">
+                    {{ form.errors.roles }}
+                  </div>
                 </div>
 
-                <div class="mb-3">
-                  <button type="submit" class="btn btn-edit me-2" :disabled="form.processing">
-                    <i class="fa fa-save me-1"></i> 
+                <div class="d-flex justify-content-between">
+                  <button type="submit" class="btn btn-outline-primary" :disabled="form.processing">
+                    <i class="fa fa-save me-2"></i>
                     {{ form.processing ? 'Creating...' : 'Create User' }}
                   </button>                  
-                  <Link :href="route('users.index')" class="btn btn-secondary">
-                    <i class="fa fa-arrow-left me-1"></i> Back to Users
+                  <Link :href="route('users.index')" class="btn btn-outline-info">
+                    <i class="fa fa-arrow-left me-2"></i>Back to Users
                   </Link>
-
                 </div>
               </form>
             </div>
           </div>
         </div>
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-header">
+                      <h5 class="card-title mb-0">User Guidelines</h5>
+                  </div>
+                  <div class="card-body">
+                      <div class="guidelines">
+                          <h6><i class="fa fa-info-circle text-info me-2"></i>Instructions</h6>
+                          <ul class="list-unstyled">
+                              <li><i class="fa fa-check text-success me-2"></i>Fill all required fields</li>
+                              <li><i class="fa fa-check text-success me-2"></i>Use a strong password (min 8 characters)</li>
+                              <li><i class="fa fa-check text-success me-2"></i>Assign appropriate roles</li>
+                              <li><i class="fa fa-check text-success me-2"></i>Verify email address format</li>
+                          </ul>
+
+                          <h6 class="mt-3"><i class="fa fa-exclamation-triangle text-warning me-2"></i>Required Fields</h6>
+                          <ul class="list-unstyled">
+                              <li><i class="fa fa-asterisk text-danger me-2"></i>Name</li>
+                              <li><i class="fa fa-asterisk text-danger me-2"></i>Email</li>
+                              <li><i class="fa fa-asterisk text-danger me-2"></i>Password</li>
+                              <li><i class="fa fa-asterisk text-danger me-2"></i>Confirm Password</li>
+                              <li><i class="fa fa-asterisk text-danger me-2"></i>At least one Role</li>
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+          </div>        
       </div>
     </div>
   </SideNavLayout>
@@ -198,3 +251,19 @@ const submit = () => {
   });
 };
 </script>
+
+<style scoped>
+.guidelines {
+    font-size: 0.875rem;
+}
+
+.guidelines h6 {
+    color: #495057;
+    margin-bottom: 0.75rem;
+}
+
+.guidelines ul li {
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem;
+}
+</style>
