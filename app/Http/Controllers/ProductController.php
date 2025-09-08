@@ -36,16 +36,20 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'sku' => 'required|string|max:255|unique:products',
+            'sku' => 'nullable|string|max:255|unique:products',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0'
+            'description' => 'nullable|string',
+            'stock' => 'nullable|integer|min:0',
+            'is_active' => 'boolean'
         ]);
 
         Product::create([
             'name' => $request->name,
             'sku' => $request->sku,
             'price' => $request->price,
-            'stock' => $request->stock,
+            'description' => $request->description,
+            'stock' => $request->stock ?? 0,
+            'is_active' => $request->is_active ?? true,
         ]);
 
         return redirect()->route('products.index')->with([
@@ -60,7 +64,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product): Response
     {
-        return Inertia::render('Products/Edit', [
+        return Inertia::render('Products/Create', [
             'product' => $product
         ]);
     }
@@ -72,16 +76,20 @@ class ProductController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'sku' => 'required|string|max:255|unique:products,sku,' . $product->id,
+            'sku' => 'nullable|string|max:255|unique:products,sku,' . $product->id,
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0'
+            'description' => 'nullable|string',
+            'stock' => 'nullable|integer|min:0',
+            'is_active' => 'boolean'
         ]);
 
         $product->update([
             'name' => $request->name,
             'sku' => $request->sku,
             'price' => $request->price,
-            'stock' => $request->stock,
+            'description' => $request->description,
+            'stock' => $request->stock ?? 0,
+            'is_active' => $request->is_active ?? true,
         ]);
 
         return redirect()->route('products.edit', $product)->with([
