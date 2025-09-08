@@ -17,6 +17,15 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'LoginPage')->name('LoginPage');
     Route::post('/login', 'login')->name('login');
     Route::get('/logout', 'logout')->name('logout');
+
+    Route::get('/send-otp', 'SendOtpPage')->name('SendOtpPage');
+    Route::post('/send-otp', 'SendOTPCode')->name('SendOTPCode');
+
+    Route::get('/verify-otp', 'VerifyOtpPage')->name('VerifyOtpPage');
+    Route::post('/verify-otp', 'VerifyOTP')->name('VerifyOTPCode');
+
+    Route::get('/reset-password','ResetPasswordPage')->name('ResetPasswordPage');
+    Route::post('/reset-password','ResetPassword')->name('ResetPassword');
 });
 
 Route::controller(RegisterController::class)->group(function () {

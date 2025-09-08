@@ -12,7 +12,7 @@
                             <p class="login-subtitle">Create a new account</p>
                         </div>
                         
-                        <div class="login-card data-form-card">
+                        <div class="login-card">
                             <form @submit.prevent="submit">
                                 <div class="modern-form-group mb-4">
                                     <label for="name" class="form-label">

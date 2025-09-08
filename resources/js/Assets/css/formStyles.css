@@ -31,19 +31,6 @@
     font-size: 0.9rem;
 }
 
-/* Form Card */
-.data-form-card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-
-.data-form-card:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-}
-
 /* Form Groups */
 .modern-form-group {
     margin-bottom: 10px;
@@ -105,8 +92,7 @@
 
 /* Mobile optimizations */
 @media (max-width: 768px) {
-    .header-card,
-    .data-form-card {
+    .header-card {
         padding: 15px;
     }
     

@@ -12,7 +12,7 @@
                             <p class="login-subtitle">Log into your account</p>
                         </div>
                         
-                        <div class="login-card data-form-card">
+                        <div class="login-card">
                             <form @submit.prevent="submit">
                                 <div class="modern-form-group mb-4">
                                     <label for="email" class="form-label">
@@ -125,10 +125,15 @@
                                 
                                 <div class="demo-credentials mt-4">
                                     <div class="alert alert-info">
-                                        <h6 class="mb-2"><i class="fas fa-info-circle me-2"></i>Demo Account</h6>
+                                        <h6 class="mb-2"><i class="fas fa-info-circle me-2"></i>Admin Demo Account</h6>
                                         <p class="mb-1"><strong>Email:</strong> admin@example.com</p>
                                         <p class="mb-0"><strong>Password:</strong> password</p>
                                     </div>
+                                    <div class="alert alert-success">
+                                        <h6 class="mb-2"><i class="fas fa-info-circle me-2"></i>Staff Demo Account</h6>
+                                        <p class="mb-1"><strong>Email:</strong> staff@example.com</p>
+                                        <p class="mb-0"><strong>Password:</strong> password</p>
+                                    </div>                                    
                                 </div>
                             </form>
                         </div>

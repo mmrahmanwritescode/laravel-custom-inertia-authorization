@@ -18,7 +18,7 @@ class RegisterController extends Controller
         if($email != 'default') {
             return redirect()->route('DashboardPage');
         }
-        return Inertia::render('User/Register');
+        return Inertia::render('Auth/Register');
     }   
     
     function register(Request $request){
