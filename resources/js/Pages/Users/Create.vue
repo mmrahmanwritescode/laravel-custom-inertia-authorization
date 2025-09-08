@@ -5,11 +5,11 @@
       <div class="row">
           <div class="col-12">
               <div class="page-header">
-                  <h1 class="page-title">Create User</h1>
+                  <h1 class="page-title">{{ isEdit ? 'Edit User' : 'Create User' }}</h1>
                   <nav aria-label="breadcrumb">
                       <ol class="breadcrumb">
                           <li class="breadcrumb-item"><Link :href="route('users.index')">Users</Link></li>
-                          <li class="breadcrumb-item active" aria-current="page">Create User</li>
+                          <li class="breadcrumb-item active" aria-current="page">{{ isEdit ? 'Edit User' : 'Create User' }}</li>
                       </ol>
                   </nav>
               </div>
@@ -60,13 +60,14 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group mb-3">
-                      <label for="password" class="form-label fw-bold">Password *</label>
+                      <label for="password" class="form-label fw-bold">Password {{ isEdit ? '' : '*' }}</label>
                       <input 
                         type="password" 
                         id="password"
                         v-model="form.password" 
                         class="form-control"
                         :class="{ 'is-invalid': form.errors.password || errors.password }"
+                        :placeholder="isEdit ? 'Leave blank to keep current password' : 'Enter password'"
                       >
                       <span v-if="form.errors.password" class="text-danger mt-2 d-block">
                         {{ form.errors.password }}
@@ -74,18 +75,21 @@
                       <span v-else-if="errors.password" class="text-danger mt-2 d-block">
                         {{ errors.password }}
                       </span>
-                      <small class="form-text text-muted">Minimum 8 characters required</small>
+                      <small class="form-text text-muted">
+                        {{ isEdit ? 'Minimum 8 characters required (leave blank to keep current)' : 'Minimum 8 characters required' }}
+                      </small>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="form-group mb-3">
-                      <label for="password_confirmation" class="form-label fw-bold">Confirm Password *</label>
+                      <label for="password_confirmation" class="form-label fw-bold">Confirm Password {{ isEdit ? '' : '*' }}</label>
                       <input 
                         type="password" 
                         id="password_confirmation"
                         v-model="form.password_confirmation" 
                         class="form-control"
                         :class="{ 'is-invalid': form.errors.password_confirmation || errors.password_confirmation || passwordMismatch }"
+                        :placeholder="isEdit ? 'Confirm new password' : 'Confirm password'"
                       >
                       <span v-if="form.errors.password_confirmation" class="text-danger mt-2 d-block">
                         {{ form.errors.password_confirmation }}
@@ -104,7 +108,7 @@
                 </div>
 
                 <div class="form-group mb-4">
-                  <label class="form-label fw-bold">Roles *</label>
+                  <label class="form-label fw-bold">Roles {{ isEdit ? '' : '*' }}</label>
                   <div class="row">
                     <div v-for="role in roles" :key="role.id" class="col-md-4 mb-2">
                       <div class="form-check">
@@ -128,8 +132,8 @@
 
                 <div class="d-flex justify-content-between">
                   <button type="submit" class="btn btn-outline-primary" :disabled="form.processing">
-                    <i class="fa fa-save me-2"></i>
-                    {{ form.processing ? 'Creating...' : 'Create User' }}
+                    <i :class="isEdit ? 'fa fa-save' : 'fa fa-user-plus'" class="me-2"></i>
+                    {{ form.processing ? (isEdit ? 'Updating...' : 'Creating...') : (isEdit ? 'Update User' : 'Create User') }}
                   </button>                  
                   <Link :href="route('users.index')" class="btn btn-outline-info">
                     <i class="fa fa-arrow-left me-2"></i>Back to Users
@@ -140,7 +144,8 @@
           </div>
         </div>
           <div class="col-md-4">
-              <div class="card">
+              <!-- User Guidelines (Create Mode) -->
+              <div v-if="!isEdit" class="card">
                   <div class="card-header">
                       <h5 class="card-title mb-0">User Guidelines</h5>
                   </div>
@@ -165,6 +170,28 @@
                       </div>
                   </div>
               </div>
+
+              <!-- User Details (Edit Mode) -->
+              <template v-if="isEdit">
+                  <div class="card">
+                      <div class="card-header">
+                          <h5 class="card-title mb-0">User Details</h5>
+                      </div>
+                      <div class="card-body">
+                          <div class="user-info">
+                              <p><strong>Created:</strong> {{ formatDate(user.created_at) }}</p>
+                              <p><strong>Last Updated:</strong> {{ formatDate(user.updated_at) }}</p>
+                              <p><strong>Current Roles:</strong></p>
+                              <div v-if="user.roles && user.roles.length > 0" class="role-badges">
+                                  <span v-for="role in user.roles" :key="role.id" class="badge bg-primary me-1 mb-1">
+                                      {{ role.name }}
+                                  </span>
+                              </div>
+                              <span v-else class="text-muted">No roles assigned</span>
+                          </div>
+                      </div>
+                  </div>
+              </template>
           </div>        
       </div>
     </div>
@@ -176,6 +203,7 @@ import { defineProps, ref, computed, watch } from 'vue';
 import { router, Link, useForm, usePage } from '@inertiajs/vue3';
 import SideNavLayout from '@/Layout/SideNavLayout.vue';
 import { createToaster } from "@meforma/vue-toaster";
+import { route } from 'ziggy-js';
 
 const page = usePage();
 const toaster = createToaster({
@@ -186,21 +214,28 @@ const toaster = createToaster({
 const errors = ref({});
 
 const props = defineProps({
+  user: {
+    type: Object,
+    default: null
+  },
   roles: {
     type: Array,
     default: () => []
   }
 });
 
+// Computed properties
+const isEdit = computed(() => !!props.user);
+
+console.log('Component props:', props);
+
 const form = useForm({
-  name: '',
-  email: '',
-  password: '',
-  password_confirmation: '',
-  roles: []
+    name: props.user?.name || '',
+    email: props.user?.email || '',
+    password: '',
+    password_confirmation: '',
+    roles: props.user?.roles ? props.user.roles.map(role => role.id) : []
 });
-
-
 
 // Password validation computed properties
 const passwordMatch = computed(() => {
@@ -212,7 +247,7 @@ const passwordMismatch = computed(() => {
 });
 
 const isPasswordValid = computed(() => {
-  return form.password && form.password.length >= 8;
+  return !form.password || form.password.length >= 8;
 });
 
 // Watch for password changes to show real-time validation
@@ -231,23 +266,54 @@ watch([() => form.password, () => form.password_confirmation], () => {
 });
 
 const submit = () => {
-
-  form.post(route('users.store'), {
-    onSuccess: () => {
-      if (page.props.flash.status === true) {
-        toaster.success(page.props.flash.message);
-        router.get(route('users.index'));
-      } else {
-        toaster.error(page.props.flash.message);
-      }
-    },
-    onError: (errors) => {
-      Object.keys(errors).forEach(key => {
-        if (errors[key]) {
-          toaster.error(errors[key]);
+  if (isEdit.value) {
+    // Update existing user
+    form.put(route('users.update', props.user.id), {
+      onSuccess: () => {
+        if (page.props.flash.status === true) {
+          toaster.success(page.props.flash.message);
+          router.get(route('users.edit', props.user.id));
+        } else {
+          toaster.error(page.props.flash.message);
         }
-      });
-    }
+      },
+      onError: (errors) => {
+        Object.keys(errors).forEach(key => {
+          if (errors[key]) {
+            toaster.error(errors[key]);
+          }
+        });
+      }
+    });
+  } else {
+    // Create new user
+    form.post(route('users.store'), {
+      onSuccess: () => {
+        if (page.props.flash.status === true) {
+          toaster.success(page.props.flash.message);
+          router.get(route('users.index'));
+        } else {
+          toaster.error(page.props.flash.message);
+        }
+      },
+      onError: (errors) => {
+        Object.keys(errors).forEach(key => {
+          if (errors[key]) {
+            toaster.error(errors[key]);
+          }
+        });
+      }
+    });
+  }
+};
+
+const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
   });
 };
 </script>
@@ -265,5 +331,17 @@ const submit = () => {
 .guidelines ul li {
     margin-bottom: 0.25rem;
     font-size: 0.875rem;
+}
+
+.role-badges .badge {
+    font-size: 0.875rem;
+}
+
+.user-info p {
+    margin-bottom: 0.5rem;
+}
+
+.user-info strong {
+    color: #495057;
 }
 </style>

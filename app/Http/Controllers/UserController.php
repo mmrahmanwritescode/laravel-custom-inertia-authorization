@@ -91,7 +91,7 @@ class UserController extends Controller
         $user->load('roles');
         $roles = Role::all();
         
-        return Inertia::render('Users/Edit', [
+        return Inertia::render('Users/Create', [
             'user' => $user,
             'roles' => $roles
         ]);
