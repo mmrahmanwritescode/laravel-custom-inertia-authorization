@@ -4,11 +4,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-header">
-                        <h1 class="page-title">Create Role</h1>
+                        <h1 class="page-title">{{ isEdit ? 'Edit Role' : 'Create Role' }}</h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><Link :href="route('roles.index')">Roles</Link></li>
-                                <li class="breadcrumb-item active" aria-current="page">Create Role</li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ isEdit ? 'Edit Role' : 'Create Role' }}</li>
                             </ol>
                         </nav>
                     </div>
@@ -22,7 +22,7 @@
                             <h5 class="card-title mb-0">Role Information</h5>
                         </div>
                         <div class="card-body">
-                            <form @submit.prevent="createRole">
+                            <form @submit.prevent="submit">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
@@ -108,8 +108,8 @@
                                 <div class="d-flex justify-content-between">
                                     <div>
                                         <button type="submit" class="btn btn-outline-primary me-2" :disabled="form.processing">
-                                            <i class="fa fa-plus me-2"></i>
-                                            {{ form.processing ? 'Creating...' : 'Create Role' }}
+                                            <i :class="isEdit ? 'fa fa-save' : 'fa fa-plus'" class="me-2"></i>
+                                            {{ form.processing ? (isEdit ? 'Updating...' : 'Creating...') : (isEdit ? 'Update Role' : 'Create Role') }}
                                         </button>                                    
                                         <button type="button" @click="selectAllPermissions" class="btn btn-outline-success me-2">
                                             <i class="fa fa-check-double me-2"></i>Select All
@@ -118,7 +118,7 @@
                                             <i class="fa fa-times me-2"></i>Clear All
                                         </button>
                                     </div>
-                                    <Link href="/roles" class="btn btn-outline-info me-2">
+                                    <Link :href="route('roles.index')" class="btn btn-outline-info me-2">
                                         <i class="fa fa-arrow-left me-2"></i>Back to Roles
                                     </Link>                                    
                                 </div>
@@ -128,7 +128,8 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card">
+                    <!-- Role Guidelines (Create Mode) -->
+                    <div v-if="!isEdit" class="card">
                         <div class="card-header">
                             <h5 class="card-title mb-0">Role Guidelines</h5>
                         </div>
@@ -155,6 +156,46 @@
                         </div>
                     </div>
 
+                    <!-- Role Details (Edit Mode) -->
+                    <template v-if="isEdit">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Role Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="role-info">
+                                    <p><strong>Created:</strong> {{ formatDate(role.created_at) }}</p>
+                                    <p><strong>Last Updated:</strong> {{ formatDate(role.updated_at) }}</p>
+                                    <p><strong>Users with this role:</strong> {{ role.users_count || 0 }}</p>
+                                    <div class="mt-3">
+                                        <p><strong>Current Permissions:</strong></p>
+                                        <div v-if="role.permissions && role.permissions.length > 0" class="current-permissions">
+                                            <span v-for="permission in role.permissions" :key="permission.id" class="badge bg-secondary me-1 mb-1">
+                                                {{ permission.name }}
+                                            </span>
+                                        </div>
+                                        <span v-else class="text-muted">No permissions assigned</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="role.users_count > 0" class="card mt-3">
+                            <div class="card-header bg-warning">
+                                <h5 class="card-title mb-0 text-dark">
+                                    <i class="fa fa-exclamation-triangle me-2"></i>Warning
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-0 small">
+                                    This role is currently assigned to {{ role.users_count }} user(s). 
+                                    Changes to permissions will affect all users with this role.
+                                </p>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Selected Permissions (Both Modes) -->
                     <div class="card mt-3">
                         <div class="card-header">
                             <h5 class="card-title mb-0">Selected Permissions</h5>
@@ -181,6 +222,7 @@ import { defineProps, ref, computed, watch } from 'vue';
 import { router, Link, useForm, usePage } from '@inertiajs/vue3';
 import SideNavLayout from '@/Layout/SideNavLayout.vue';
 import { createToaster } from "@meforma/vue-toaster";
+import { route } from 'ziggy-js';
 
 const page = usePage();
 const toaster = createToaster({
@@ -191,14 +233,24 @@ const toaster = createToaster({
 const errors = ref({});
 
 const props = defineProps({
-    permissions: Array
+    role: {
+        type: Object,
+        default: null
+    },
+    permissions: {
+        type: Array,
+        default: () => []
+    }
 });
 
+// Computed properties
+const isEdit = computed(() => !!props.role);
+
 const form = useForm({
-    name: '',
-    display_name: '',
-    description: '',
-    permissions: []
+    name: props.role?.name || '',
+    display_name: props.role?.display_name || '',
+    description: props.role?.description || '',
+    permissions: props.role?.permissions ? props.role.permissions.map(p => p.id) : []
 });
 
 const selectedPermissions = computed(() => {
@@ -207,25 +259,46 @@ const selectedPermissions = computed(() => {
     );
 });
 
-const createRole = () => {
-
-  form.post(route('roles.store'), {
-    onSuccess: () => {
-      if (page.props.flash.status === true) {
-        toaster.success(page.props.flash.message);
-        router.get(route('roles.index'));
-      } else {
-        toaster.error(page.props.flash.message);
-      }
-    },
-    onError: (errors) => {
-      Object.keys(errors).forEach(key => {
-        if (errors[key]) {
-          toaster.error(errors[key]);
+const submit = () => {
+  if (isEdit.value) {
+    // Update existing role
+    form.put(route('roles.update', props.role.id), {
+      onSuccess: () => {
+        if (page.props.flash.status === true) {
+          toaster.success(page.props.flash.message);
+          router.get(route('roles.edit', props.role.id));
+        } else {
+          toaster.error(page.props.flash.message);
         }
-      });
-    }
-  });
+      },
+      onError: (errors) => {
+        Object.keys(errors).forEach(key => {
+          if (errors[key]) {
+            toaster.error(errors[key]);
+          }
+        });
+      }
+    });
+  } else {
+    // Create new role
+    form.post(route('roles.store'), {
+      onSuccess: () => {
+        if (page.props.flash.status === true) {
+          toaster.success(page.props.flash.message);
+          router.get(route('roles.index'));
+        } else {
+          toaster.error(page.props.flash.message);
+        }
+      },
+      onError: (errors) => {
+        Object.keys(errors).forEach(key => {
+          if (errors[key]) {
+            toaster.error(errors[key]);
+          }
+        });
+      }
+    });
+  }
 };
 
 const selectAllPermissions = () => {
@@ -234,6 +307,16 @@ const selectAllPermissions = () => {
 
 const clearAllPermissions = () => {
     form.permissions = [];
+};
+
+const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 };
 </script>
 
@@ -282,6 +365,15 @@ const clearAllPermissions = () => {
     margin-top: 0.5rem;
 }
 
+.role-info p {
+    margin-bottom: 0.5rem;
+}
+
+.role-info strong {
+    color: #495057;
+}
+
+.current-permissions .badge,
 .selected-permissions .badge {
     font-size: 0.75rem;
 }

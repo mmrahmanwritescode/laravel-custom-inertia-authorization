@@ -42,12 +42,16 @@ class RoleController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255|unique:roles',
+            'display_name' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
             'permissions' => 'array',
             'permissions.*' => 'exists:permissions,id'
         ]);
 
         $role = Role::create([
-            'name' => $request->name
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+            'description' => $request->description,
         ]);
 
         if ($request->permissions) {
@@ -67,9 +71,10 @@ class RoleController extends Controller
     public function edit(Role $role): Response
     {
         $role->load('permissions');
+        $role->loadCount('users');
         $permissions = Permission::all();
         
-        return Inertia::render('Roles/Edit', [
+        return Inertia::render('Roles/Create', [
             'role' => $role,
             'permissions' => $permissions
         ]);
@@ -83,12 +88,16 @@ class RoleController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255|unique:roles,name,' . $role->id,
+            'display_name' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
             'permissions' => 'array',
             'permissions.*' => 'exists:permissions,id'
         ]);
 
         $role->update([
-            'name' => $request->name
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+            'description' => $request->description,
         ]);
 
         $role->permissions()->sync($request->permissions ?? []);

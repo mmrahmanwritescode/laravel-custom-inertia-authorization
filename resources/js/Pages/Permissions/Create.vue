@@ -4,11 +4,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="page-header">
-                        <h1 class="page-title">Create Permission</h1>
+                        <h1 class="page-title">{{ isEdit ? 'Edit Permission' : 'Create Permission' }}</h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><Link :href="route('permissions.index')">Permissions</Link></li>
-                                <li class="breadcrumb-item active" aria-current="page">Create Permission</li>
+                                <li class="breadcrumb-item active" aria-current="page">{{ isEdit ? 'Edit Permission' : 'Create Permission' }}</li>
                             </ol>
                         </nav>
                     </div>
@@ -22,7 +22,7 @@
                             <h5 class="card-title mb-0">Permission Information</h5>
                         </div>
                         <div class="card-body">
-                            <form @submit.prevent="createPermission">
+                            <form @submit.prevent="submit">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group mb-3">
@@ -47,8 +47,8 @@
 
                                 <div class="d-flex justify-content-between">
                                     <button type="submit" class="btn btn-outline-primary me-2" :disabled="form.processing">
-                                        <i class="fa fa-plus me-2"></i>
-                                        {{ form.processing ? 'Creating...' : 'Create Permission' }}
+                                        <i :class="isEdit ? 'fa fa-save' : 'fa fa-plus'" class="me-2"></i>
+                                        {{ form.processing ? (isEdit ? 'Updating...' : 'Creating...') : (isEdit ? 'Update Permission' : 'Create Permission') }}
                                     </button>                                    
                                     <Link href="/permissions" class="btn btn-outline-info">
                                         <i class="fa fa-arrow-left me-2"></i>Back to Permissions
@@ -60,7 +60,8 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card">
+                    <!-- Permission Guidelines (Create Mode) -->
+                    <div v-if="!isEdit" class="card">
                         <div class="card-header">
                             <h5 class="card-title mb-0">Permission Guidelines</h5>
                         </div>
@@ -102,6 +103,46 @@
                         </div>
                     </div>
 
+                    <!-- Permission Details (Edit Mode) -->
+                    <template v-if="isEdit">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Permission Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="permission-info">
+                                    <p><strong>Created:</strong> {{ formatDate(permission.created_at) }}</p>
+                                    <p><strong>Last Updated:</strong> {{ formatDate(permission.updated_at) }}</p>
+                                    <p><strong>Used in Roles:</strong> {{ permission.roles_count || 0 }}</p>
+                                    
+                                    <div v-if="permission.roles && permission.roles.length > 0" class="mt-3">
+                                        <p><strong>Currently assigned to:</strong></p>
+                                        <div class="assigned-roles">
+                                            <span v-for="role in permission.roles" :key="role.id" class="badge bg-secondary me-1 mb-1">
+                                                {{ role.name }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div v-if="permission.roles_count > 0" class="card mt-3">
+                            <div class="card-header bg-warning">
+                                <h5 class="card-title mb-0 text-dark">
+                                    <i class="fa fa-exclamation-triangle me-2"></i>Warning
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-0 small">
+                                    This permission is currently assigned to {{ permission.roles_count }} role(s). 
+                                    Changes will affect all users with those roles.
+                                </p>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Permission Preview (Both Modes) -->
                     <div class="card mt-3">
                         <div class="card-header">
                             <h5 class="card-title mb-0">Permission Preview</h5>
@@ -134,6 +175,7 @@ import { defineProps, ref, computed, watch } from 'vue';
 import { router, Link, useForm, usePage } from '@inertiajs/vue3';
 import SideNavLayout from '@/Layout/SideNavLayout.vue';
 import { createToaster } from "@meforma/vue-toaster";
+import { route } from 'ziggy-js';
 
 const page = usePage();
 const toaster = createToaster({
@@ -143,31 +185,72 @@ const toaster = createToaster({
 // Validation Errors
 const errors = ref({});
 
+const props = defineProps({
+    permission: {
+        type: Object,
+        default: null
+    }
+});
+
+// Computed properties
+const isEdit = computed(() => !!props.permission); console.log(props.permission)
+
 const form = useForm({
-    name: '',
+    name: props.permission?.name || '',
     // display_name: '',
     // description: ''
 });
 
-const createPermission = () => {
-
-  form.post(route('permissions.store'), {
-    onSuccess: () => {
-      if (page.props.flash.status === true) {
-        toaster.success(page.props.flash.message);
-        router.get(route('permissions.index'));
-      } else {
-        toaster.error(page.props.flash.message);
-      }
-    },
-    onError: (errors) => {
-      Object.keys(errors).forEach(key => {
-        if (errors[key]) {
-          toaster.error(errors[key]);
-        }
-      });
+const submit = () => {
+    if (isEdit.value) {
+        // Update existing permission
+        form.put(route('permissions.update', props.permission.id), {
+            onSuccess: () => {
+                if (page.props.flash.status === true) {
+                    toaster.success(page.props.flash.message);
+                    router.get(route('permissions.edit', props.permission.id));
+                } else {
+                    toaster.error(page.props.flash.message);
+                }
+            },
+            onError: (errors) => {
+                Object.keys(errors).forEach(key => {
+                    if (errors[key]) {
+                        toaster.error(errors[key]);
+                    }
+                });
+            }
+        });
+    } else {
+        // Create new permission
+        form.post(route('permissions.store'), {
+            onSuccess: () => {
+                if (page.props.flash.status === true) {
+                    toaster.success(page.props.flash.message);
+                    router.get(route('permissions.index'));
+                } else {
+                    toaster.error(page.props.flash.message);
+                }
+            },
+            onError: (errors) => {
+                Object.keys(errors).forEach(key => {
+                    if (errors[key]) {
+                        toaster.error(errors[key]);
+                    }
+                });
+            }
+        });
     }
-  });
+};
+
+const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
 };
 </script>
 
@@ -197,6 +280,18 @@ const createPermission = () => {
 
 .example-category:last-child {
     margin-bottom: 0;
+}
+
+.permission-info p {
+    margin-bottom: 0.5rem;
+}
+
+.permission-info strong {
+    color: #495057;
+}
+
+.assigned-roles .badge {
+    font-size: 0.75rem;
 }
 
 .permission-preview {

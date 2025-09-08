@@ -14,7 +14,7 @@ class PermissionController extends Controller
      */
     public function index(): Response
     {
-        $permissions = Permission::paginate(10); //dd($permissions);
+        $permissions = Permission::withCount('roles')->paginate(10); //dd($permissions);
 
         return Inertia::render('Permissions/Index', [
             'permissions' => $permissions
@@ -55,8 +55,11 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission): Response
     {
-        return Inertia::render('Permissions/Edit', [
-            'permission' => $permission
+        $permission->loadCount('roles');
+        //dd( $permission);
+        return Inertia::render('Permissions/Create', [
+            'permission' => $permission,
+
         ]);
     }
 

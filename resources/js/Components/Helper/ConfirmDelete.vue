@@ -7,7 +7,7 @@
                 <p class="text-muted">{{ message }}</p>
             </div>
             <div class="d-flex justify-content-center mt-4">
-                <button class="btn btn-admin-danger me-3" @click="confirm">
+                <button class="btn btn-primary me-3" @click="confirm">
                     <i class="fa fa-check me-1"></i> Confirm
                 </button>
                 <button class="btn btn-secondary" @click="close">
@@ -82,7 +82,6 @@ const confirm = () => emit('confirm')
 }
 
 .font-lobster {
-    font-family: 'Lobster', cursive;
     font-size: 1.8rem;
     color: #333333;
 }
